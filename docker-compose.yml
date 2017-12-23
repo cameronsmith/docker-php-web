@@ -1,0 +1,20 @@
+version: "2"
+
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: .docker/docker-nginx.dockerfile
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/usr/share/nginx/html
+    env_file:
+      - ./.docker/env/app.${APP_ENV}.env
+    networks:
+      - docker-php-web
+
+networks:
+  docker-php-web:
+    driver: bridge
