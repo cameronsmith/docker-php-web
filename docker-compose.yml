@@ -9,12 +9,22 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./public:/usr/share/nginx/html
+      - .:/usr/share/nginx/html
     env_file:
       - ./.docker/env/app.${APP_ENV}.env
     networks:
-      - docker-php-web
+      - php-network
+    links:
+      - php
+
+  php:
+    container_name: php
+    image: php:7-fpm
+    volumes:
+      - .:/usr/share/nginx/html
+    networks:
+      - php-network
 
 networks:
-  docker-php-web:
+  php-network:
     driver: bridge
